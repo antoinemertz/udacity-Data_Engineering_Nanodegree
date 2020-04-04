@@ -54,11 +54,11 @@ user_table_create = ("""
 songplay_table_create = ("""
     CREATE TABLE songplays (
         songplay_id SERIAL PRIMARY KEY,
-        start_time VARCHAR(256),
-        user_id TEXT,
+        start_time VARCHAR(256) NOT NULL,
+        user_id TEXT NOT NULL,
         level TEXT,
-        song_id TEXT,
-        artist_id TEXT,
+        song_id TEXT NOT NULL,
+        artist_id TEXT NOT NULL,
         session_id TEXT,
         location TEXT,
         user_agent TEXT
