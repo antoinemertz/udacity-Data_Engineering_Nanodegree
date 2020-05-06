@@ -128,3 +128,44 @@ Then we describe the structure of the Datawarehouse: the data which will be used
     *session_id*   varchar  
     *location*     varchar  
     *user_agent*   varchar  
+
+#### Dimension Tables
+* `uers` - store all app users
+    *user_id*      integer pirmary key   
+    *first_name*   varchar
+    *last_name*    varchar
+    *gender*       varchar
+    *level*        varchar  
+
+* `songs` - store all songs available in the app
+    *song_id*      varchar primary key  
+    *title*        varchar  
+    *artist_id*    varchar  
+    *year*         integer  
+    *duration*     float  
+
+* `artists` - store all artists availbale in the app
+    *artist_id*    varchar primary key  
+    *name*         varchar  
+    *location*     varchar  
+    *latitude*     float  
+    *longitude*    float
+
+* `time` - record all timestampswhen a music is listening in the app and extracted time statistics (hour, day, ...)
+    *start_time*  timestamp primary key
+    *hour*        integer
+    *day*         integer
+    *week*        integer
+    *month*       integer
+    *year*        integer
+    *weekday*     varchar
+
+#### Discussion
+
+This schema is really basic. But it answers, I think, all necessary questions the analytics team can have.
+
+First we have two staging tables to store raw data coming from S3 files. This staging area is used to have all raw data available before store it in a more appropriate way in the data warahouse with a fact table and dimensions tables. This staging area duplicates data from S3. But is is surely possible to decide to treat the data in batch (every day or week for example) and then delete data in the staging tables to only keep raw data in S3. We can safely delete data in the staging tables once the data are stored in the Data Warehouse because the raw data are coming from S3 and the IAM Role has only read access in S3 so data cannot be deleted in S3 buckets and raw data are always available.
+
+Then the Data Warehouse has one fact table and then 4 dimension tables. The star schema is appropriate in our case because we don't need to break down lot of informations in the dimension tables (like city coming from counties coming from countries, ...). And with this schema, the analytics team has a clear view on how to request data and aggregate if needed. NO complexity here with basic SQL knowledges.
+
+So I think I correctly answer the demand of the Sparkify team to build a Data Warehouse on AWS using the data store in S3 buckets.
