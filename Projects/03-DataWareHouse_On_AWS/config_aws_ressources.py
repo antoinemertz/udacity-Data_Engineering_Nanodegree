@@ -79,7 +79,7 @@ if __name__ == "__main__":
     KEY                = config.get("AWS","KEY")
     SECRET             = config.get("AWS","SECRET")
     
-    IAM_ROLE_NAME      = config.get("CLUSTER", "IAM_ROLE_NAME")
+    IAM_ROLE_NAME      = config.get("REDSHIFT", "IAM_ROLE_NAME")
     iAmRole = create_iam_role()
     config['IAM_ROLE']['ARN'] = iAmRole
     ROLE_ARN           = config['IAM_ROLE']['ARN']
